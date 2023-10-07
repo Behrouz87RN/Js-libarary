@@ -1,0 +1,61 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Library</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+    
+</head>
+<body>
+    <h1 id="page-title">Project Library</h1>
+
+    <!-- Filter by Genre Dropdown -->
+    <label for="genre-filter">Filter by Genre:</label>
+    <select id="genre-filter">
+        <option value="all">All</option>
+        <option value="Fiction">Fiction</option>
+        <option value="Science Fiction">Science Fiction</option>
+        <option value="Fantasy">Fantasy</option>
+        <option value="Adventure">Adventure</option>
+    </select>
+
+     <!-- Sort by rating -->
+     <label for="sortDropDown">sort by rating:</label>
+     <select id="sortDropDown">
+         <option value="highest">Highest</option>
+         <option value="lowest">Lowest</option>
+     </select>
+
+    <!-- Search Box -->
+    <label for="search-box">Search:</label>
+    <input type="text" id="search-box">
+    <button onclick="searchBooks()">Search</button>
+
+    <!-- Book List -->
+    <ul id="book-list"></ul>
+
+    
+    <!-- Container for Book Cards -->
+    <div class="container" id="container"></div>
+
+    <!-- Favorites Section -->
+    <h2>Favorites</h2>
+    <div class="favorites" id="favorites"></div>
+
+    <!-- Filter Dropdown -->
+    <select id="filterDropdown"></select>
+
+    <!-- Add a "Favorite" button with an ID -->
+  <button id="favorite-button">Add to Favorites</button>
+
+
+</body>
+</html>
+
+
+
+
