@@ -317,7 +317,7 @@ function displayBooks(books) {
 
     bookImage.src = book.image;
     bookImage.alt = book.title;
-    bookImage.style.maxWidth = "100px";
+    // bookImage.style.maxWidth = "100px";
 
     bookItem.appendChild(bookImage);
     bookItem.appendChild(document.createTextNode(`${book.title} by ${book.author} (${book.genre}, Rating: ${book.rating})`));
