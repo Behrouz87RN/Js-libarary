@@ -346,4 +346,18 @@ function addToFaves(event) {
 }
 
 }
+// Add a searchBooks function to handle the search
+function searchBooks() {
+  const searchTerm = document.getElementById("search-box").value.toLowerCase();
+
+  const filteredBooks = allBooks.filter(book => {
+    return (
+      book.title.toLowerCase().includes(searchTerm) ||
+      book.author.toLowerCase().includes(searchTerm) ||
+      book.genre.toLowerCase().includes(searchTerm)
+    );
+  });
+
+  displayBooks(filteredBooks);
+}
 
