@@ -198,140 +198,42 @@ const sortDropDown = document.getElementById("sortDropDown");
 let visibleBooks = allBooks;
 
 // Function to filter books by genre
-function filterByGenre() {
+function filterByGenre(books) {
   const genre = filterDropdown.value;
-  if(genre==="all"){
-    visibleBooks = allBooks;
+  let filteredBooks = [];
+  if (genre === "all") {
+    filteredBooks = books;
   } else {
-    visibleBooks = allBooks.filter(book => book.genre === genre);
+    filteredBooks = books.filter(book => book.genre === genre);
   }
-  sortByRating()
+  return filteredBooks;
 }
 
 // Function to sort books by rating (highest to lowest)
-function sortByRating() {
+function sortByRating(books) {
   let sortedBooks = [];
   const sort = sortDropDown.value;
-  if(sort==="lowest"){
-    sortedBooks = visibleBooks.slice().sort((a, b) => a.rating - b.rating);
+  if (sort === "lowest") {
+    sortedBooks = books.slice().sort((a, b) => a.rating - b.rating);
   } else {
-    sortedBooks = visibleBooks.slice().sort((a, b) => b.rating - a.rating);
+    sortedBooks = books.slice().sort((a, b) => b.rating - a.rating);
   }
-  displayBooks(sortedBooks);
+  return sortedBooks;
 }
 
-// Function to add a book to favorites.
-function addToFaves(title) {
-  const favorites = document.getElementById("favorites");
-  const book = books.find((book) => book.title === title);
+// Add a searchBooks function to handle the search
+function searchBooks(books) {
+  const searchTerm = document.getElementById("search-box").value.toLowerCase();
 
-  if (book) {
-    favorites.innerHTML += `<p>${book.title} (Author: ${book.author})</p>`;
-    faveBooks.push(book);
-  }
-}
-
-
-function displayBooks(books) {
-  const bookList = document.getElementById("book-list");
-  bookList.innerHTML='';
-
-  books.forEach(book => {
-    const bookItem = document.createElement("li");
-    const bookImage = document.createElement("img");
-    const favoriteButton = document.createElement("button");
-
-    bookImage.src = book.image;
-    bookImage.alt = book.title;
-    bookImage.style.maxWidth = "100px";
-
-    favoriteButton.innerText = "Favorite";
-    favoriteButton.dataset.title = book.title;  // Add a data attribute to store the title
-    favoriteButton.addEventListener("click", addToFaves);
-
-    bookItem.appendChild(bookImage);
-    bookItem.appendChild(document.createTextNode(`${book.title} by ${book.author} (${book.genre}, Rating: ${book.rating})`));
-    bookItem.appendChild(favoriteButton);
-
-    bookList.appendChild(bookItem);
+  const filteredBooks = books.filter(book => {
+    return (
+      book.title.toLowerCase().includes(searchTerm) ||
+      book.author.toLowerCase().includes(searchTerm) ||
+      book.genre.toLowerCase().includes(searchTerm)
+    );
   });
+  return filteredBooks;
 }
-
-
-// function displayBooks(books) {
-//   const bookList = document.getElementById("book-list");
-//   bookList.innerHTML='';
-
-//   books.forEach(book => {
-//     const bookItem = document.createElement("li");
-//     const bookImage = document.createElement("img");
-
-//     bookImage.src = book.image;
-//     bookImage.alt = book.title;
-//     bookImage.style.maxWidth = "100px";
-
-//     bookItem.appendChild(bookImage);
-//     bookItem.appendChild(document.createTextNode(`${book.title} by ${book.author} (${book.genre}, Rating: ${book.rating})`));
-//     bookList.appendChild(bookItem);
-//   });
-// }
-
-document.addEventListener("DOMContentLoaded", () => {
-  displayBooks(visibleBooks); // Display all books when the page loads
-});
-
-
-// Apply the filter when the user changes the dropdown selection.
-filterDropdown.addEventListener("change", filterByGenre);
-sortDropDown.addEventListener("change", sortByRating);
-
-
-// Function to add a book to favorites.
-function addToFaves(title) {
-  const favorites = document.getElementById("favorites");
-  const book = allBooks.find((book) => book.title === title);
-
-  if (book) {
-    favorites.innerHTML += `<p>${book.title} (Author: ${book.author})</p>`;
-    faveBooks.push(book);
-  }
-}
-
-// Function to create a "Favorite" button for each book card.
-function createFavoriteButton(title) {
-  const button = document.createElement("button");
-  button.innerText = "Favorite";
-  button.addEventListener("click", () => addToFaves(title));
-  return button;
-}
-
-// Function to display books with "Favorite" buttons.
-function displayBooks(books) {
-  const bookList = document.getElementById("book-list");
-  bookList.innerHTML='';
-
-  books.forEach(book => {
-    const bookItem = document.createElement("li");
-    const bookImage = document.createElement("img");
-    const favoriteButton = createFavoriteButton(book.title);
-
-    bookImage.src = book.image;
-    bookImage.alt = book.title;
-    // bookImage.style.maxWidth = "100px";
-
-    bookItem.appendChild(bookImage);
-    bookItem.appendChild(document.createTextNode(`${book.title} by ${book.author} (${book.genre}, Rating: ${book.rating})`));
-    bookItem.appendChild(favoriteButton);
-
-    bookList.appendChild(bookItem);
-  });
-
-
-  // Get a reference to the "Favorite" button using its ID
-const favoriteButton = document.getElementById("favorite-button");
-
-// Add an event listener to the button
-favoriteButton.addEventListener("click", addToFaves);
 
 // Modify addToFaves function to use the event
 function addToFaves(event) {
@@ -345,19 +247,42 @@ function addToFaves(event) {
   }
 }
 
-}
-// Add a searchBooks function to handle the search
-function searchBooks() {
-  const searchTerm = document.getElementById("search-box").value.toLowerCase();
+function displayBooks(books) {
+  const bookList = document.getElementById("book-list");
+  bookList.innerHTML = '';
 
-  const filteredBooks = allBooks.filter(book => {
-    return (
-      book.title.toLowerCase().includes(searchTerm) ||
-      book.author.toLowerCase().includes(searchTerm) ||
-      book.genre.toLowerCase().includes(searchTerm)
-    );
+  books.forEach(book => {
+    const bookItem = document.createElement("li");
+    const bookImage = document.createElement("img");
+    const favoriteButton = document.createElement("button");
+
+    bookImage.src = book.image;
+    bookImage.alt = book.title;
+
+    favoriteButton.innerText = "Favorite";
+    favoriteButton.dataset.title = book.title;  // Add a data attribute to store the title
+    favoriteButton.addEventListener("click", addToFaves);
+
+    bookItem.appendChild(bookImage);
+    bookItem.appendChild(document.createTextNode(`${book.title} by ${book.author} (${book.genre}, Rating: ${book.rating})`));
+    bookItem.appendChild(favoriteButton);
+
+    bookList.appendChild(bookItem);
   });
-
-  displayBooks(filteredBooks);
 }
 
+function updateList() {
+  const filteredGenre = filterByGenre(allBooks);
+  const filteredSearch = searchBooks(filteredGenre);
+  const sortedBooks = sortByRating(filteredSearch);
+  //visibleBooks = sortedBooks;
+  displayBooks(sortedBooks);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  updateList(); // Display all books when the page loads
+
+  // Apply the filter when the user changes the dropdown selection.
+  filterDropdown.addEventListener("change", updateList);
+  sortDropDown.addEventListener("change", updateList);
+});
