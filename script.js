@@ -210,14 +210,17 @@ function filterByGenre(books) {
 }
 
 // Function to sort books by rating (highest to lowest)
-function sortByRating(books) {
+function sortBy(books) {
   let sortedBooks = [];
   const sort = sortDropDown.value;
   if (sort === "lowest") {
     sortedBooks = books.slice().sort((a, b) => a.rating - b.rating);
-  } else {
+  } else if (sort === "alphabetical") {
+    sortedBooks = books.slice().sort((a, b) => a.title.localeCompare(b.title));
+  } else { // highest
     sortedBooks = books.slice().sort((a, b) => b.rating - a.rating);
   }
+
   return sortedBooks;
 }
 
@@ -274,10 +277,11 @@ function displayBooks(books) {
 function updateList() {
   const filteredGenre = filterByGenre(allBooks);
   const filteredSearch = searchBooks(filteredGenre);
-  const sortedBooks = sortByRating(filteredSearch);
+  const sortedBooks = sortBy(filteredSearch);
   //visibleBooks = sortedBooks;
   displayBooks(sortedBooks);
 }
+
 
 document.addEventListener("DOMContentLoaded", () => {
   updateList(); // Display all books when the page loads
