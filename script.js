@@ -1,6 +1,3 @@
-/*Here we have created two different arrays that you can work with if you want.
-If you choose to create your own arrays with elements, just make sure that some
-of the properties make sense to filter on, and some to sort on.*/
 
 const allBooks = [
   {
@@ -256,6 +253,7 @@ function displayBooks(books) {
 
   books.forEach(book => {
     const bookItem = document.createElement("li");
+    const bookInfo = document.createElement("span");
     const bookImage = document.createElement("img");
     const favoriteButton = document.createElement("button");
 
@@ -266,8 +264,10 @@ function displayBooks(books) {
     favoriteButton.dataset.title = book.title;  // Add a data attribute to store the title
     favoriteButton.addEventListener("click", addToFaves);
 
+    bookInfo.innerHTML = `${book.title} <br><br> by ${book.author} (${book.genre}, Rating: ${book.rating}, Year: ${book.year}) <br><br> ${book.description})`;
+
     bookItem.appendChild(bookImage);
-    bookItem.appendChild(document.createTextNode(`${book.title} by ${book.author} (${book.genre}, Rating: ${book.rating})`));
+    bookItem.appendChild(bookInfo);
     bookItem.appendChild(favoriteButton);
 
     bookList.appendChild(bookItem);
